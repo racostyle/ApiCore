@@ -20,8 +20,8 @@ namespace ApiHost
             //});
 
             builder.Services.AddSingleton<Settings>(); //single instance injected each time and persist for aplication lifetime
-            //builder.Services.AddScoped<Settings>(); //single  
-            //builder.Services.AddTransient<Settings>();
+            //builder.Services.AddScoped<Settings>(); //new isntance per http request
+            //builder.Services.AddTransient<Settings>(); //new instance per each request
 
             builder.Services.AddControllers();
             
