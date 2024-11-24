@@ -1,12 +1,35 @@
-
-using System.Text.Json;
+using ApiHost.Database;
 
 namespace ApiHost
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
+            var settings = new Settings();
+
+
+            var sqlExecutor = new DatabaseQueryExecutor();
+            var dbUtils = new DatabaseUtils();
+            var queries = new Queries();
+
+            var sqlSeverName = settings.GetSqlServerName();
+
+            using (var safetychecks = new DatabaseSafetyChecks(sqlExecutor, dbUtils, queries, sqlSeverName))
+            {
+                var result = await safetychecks.DoesServerExist();
+                if (!result)
+                    throw new Exception($"Could not connect to sqlServer: {sqlSeverName}");
+                await safetychecks.CreateLogsDatabaseIfItDoesNotExist();
+                await safetychecks.CreateLogsTableIfItDoesNotExist();
+            }
+
+
+
+
+
+
+
             var builder = WebApplication.CreateBuilder(args);
             // Add services to the container.
 
@@ -18,6 +41,12 @@ namespace ApiHost
             //        listenOptions.UseHttps(); // HTTPS on port 8337
             //    });
             //});
+
+            //for adding custom objects
+            //var myLogger = LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger<MyService>();
+            //var preConfiguredService = new MyService(myLogger);
+            //builder.Services.AddSingleton(preConfiguredService);
+
 
             builder.Services.AddSingleton<Settings>(); //single instance injected each time and persist for aplication lifetime
             //builder.Services.AddScoped<Settings>(); //new isntance per http request
@@ -42,28 +71,6 @@ namespace ApiHost
             app.MapControllers();
             app.Run();
 
-        }
-    }
-
-    public class Settings
-    {
-        private const string SQL_SERVER_NAME = "SqlServer";
-        private const string CONFIG_NAME = "appsettings.Secrets.json";
-
-        private Dictionary<string, string> _config;
-
-        public Settings()
-        {
-            LoadSettings();
-        }
-
-        internal void LoadSettings()
-        {
-            var json = File.ReadAllText(CONFIG_NAME);
-            if (!string.IsNullOrEmpty(json))
-            {
-                _config = JsonSerializer.Deserialize<Dictionary<string, string>>(json);
-            }
         }
     }
 }
