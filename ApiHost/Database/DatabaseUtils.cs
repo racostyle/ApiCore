@@ -4,7 +4,7 @@ namespace ApiHost.Database
 {
     public class DatabaseUtils
     {
-        public async Task<bool> CheckSqlServerConnection(string connectionString)
+        public async Task<bool> CheckSqlServerConnectionAsync(string connectionString)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {

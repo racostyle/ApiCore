@@ -8,27 +8,20 @@ namespace ApiHost
         {
             var settings = new Settings();
 
+            var sqlHandler = new SqlHandler(
+                new DatabaseQueryExecutor(),
+                new DatabaseUtils(),
+                new Queries(),
+                settings.GetSqlServerName());
 
-            var sqlExecutor = new DatabaseQueryExecutor();
-            var dbUtils = new DatabaseUtils();
-            var queries = new Queries();
-
-            var sqlSeverName = settings.GetSqlServerName();
-
-            using (var safetychecks = new DatabaseSafetyChecks(sqlExecutor, dbUtils, queries, sqlSeverName))
+            using (var safetychecks = new DatabaseSafetyChecks(sqlHandler))
             {
                 var result = await safetychecks.DoesServerExist();
                 if (!result)
-                    throw new Exception($"Could not connect to sqlServer: {sqlSeverName}");
+                    throw new Exception($"Could not connect to sqlServer: {settings.GetSqlServerName()}");
                 await safetychecks.CreateLogsDatabaseIfItDoesNotExist();
                 await safetychecks.CreateLogsTableIfItDoesNotExist();
             }
-
-
-
-
-
-
 
             var builder = WebApplication.CreateBuilder(args);
             // Add services to the container.

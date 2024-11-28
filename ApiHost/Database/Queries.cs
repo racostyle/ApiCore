@@ -1,4 +1,6 @@
-﻿namespace ApiHost.Database
+﻿using ApiHost.DTO;
+
+namespace ApiHost.Database
 {
     public class Queries
     {
@@ -17,8 +19,17 @@
             USE {LOG_DATABASE_NAME};
             CREATE TABLE {LOG_TABLE_NAME} (
             ID INT PRIMARY KEY IDENTITY(1,1),
-            Type VARCHAR(30) NOT NULL,
-            Description VARCHAR(MAX) NOT NULL);";
+            Name VARCHAR(30) NOT NULL,
+            Time DATETIME NOT NULL,
+            Context VARCHAR(MAX) NOT NULL);";
+        }
+
+        internal string InsertIntoLogTable(LogDTO dto)
+        {
+            return @$"
+                INSERT INTO {LOG_TABLE_NAME} (Name, Type, Context)
+                VALUES ({dto.Name},{dto.DateTime.ToString("yyyy-MM-dd HH:mm:ss")},{dto.Context});
+            ";
         }
 
         internal string FetchLogsDatabaseIfExists()
