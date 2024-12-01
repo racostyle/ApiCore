@@ -35,15 +35,8 @@ namespace ApiHost
             //    });
             //});
 
-            //for adding custom objects
-            //var myLogger = LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger<MyService>();
-            //var preConfiguredService = new MyService(myLogger);
-            //builder.Services.AddSingleton(preConfiguredService);
-
-
-            builder.Services.AddSingleton<Settings>(); //single instance injected each time and persist for aplication lifetime
-            //builder.Services.AddScoped<Settings>(); //new isntance per http request
-            //builder.Services.AddTransient<Settings>(); //new instance per each request
+            builder.Services.AddSingleton<Settings>(); 
+            builder.Services.AddSingleton(sqlHandler); 
 
             builder.Services.AddControllers();
             

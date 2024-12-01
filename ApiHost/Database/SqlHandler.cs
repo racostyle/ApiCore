@@ -1,4 +1,6 @@
-﻿namespace ApiHost.Database
+﻿using ApiHost.DTO;
+
+namespace ApiHost.Database
 {
     public class SqlHandler
     {
@@ -59,6 +61,13 @@
         internal async Task<bool> CheckSqlServerConnection()
         {
             return await _databaseUtils.CheckSqlServerConnectionAsync(ConnectionString);
+        }
+
+        internal async Task<bool> Post(LogDTO log)
+        {
+            var createResult = await _databaseQueryExecutor.ExecuteNonQueryAsync(ConnectionString, _queries.InsertIntoLogTable(log));
+
+            return createResult > 0;
         }
         #endregion
     }

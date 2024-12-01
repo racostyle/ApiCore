@@ -1,16 +1,16 @@
 ﻿namespace ApiHost.DTO
 {
-    public struct LogDTO
+    public class LogDTO
     {
-        public string Name;
-        public DateTime DateTime;
-        public string Context;
+        public string Name { get; set; }
+        public string Context { get; set; }
+        public DateTime DateTime { get; private set; }
 
-        public LogDTO(string name, DateTime dateTime, string context)
+        public LogDTO(string name, string context)
         {
             Name = name;
-            DateTime = dateTime;
             Context = context;
+            DateTime = DateTime.Now;
         }
     }
 }

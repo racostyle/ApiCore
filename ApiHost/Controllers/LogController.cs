@@ -1,37 +1,39 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ApiHost.Database;
+using ApiHost.DTO;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ApiHost.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class LogController : Controller
     {
-        public IActionResult Index()
+        private readonly SqlHandler _sqlHandler;
+
+        public LogController(SqlHandler sqlHandler)
         {
-            return View();
+            _sqlHandler = sqlHandler;
         }
 
-        public LogController()
+        [HttpGet("status")]
+        public IActionResult Status()
         {
-            
+            return Ok("LogController is working!");
         }
 
-        //[HttpPost]
-        //public IActionResult Post([FromBody] LogDTO product)
-        //{
-        //    using (SqlConnection connection = new SqlConnection(ConnectionString))
-        //    {
-        //        string query = "INSERT INTO Products (Name, Price) VALUES (@Name, @Price);";
 
-        //        using (SqlCommand command = new SqlCommand(query, connection))
-        //        {
-        //            command.Parameters.AddWithValue("@Name", product.Name);
-        //            command.Parameters.AddWithValue("@Price", product.Price);
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] LogDTO log)
+        {
+           
+            await _sqlHandler.CreateLogsDatabaseIfDoesNotExist();
+            await _sqlHandler.CreateLogsDatabaseIfDoesNotExist();
 
-        //            connection.Open();
-        //            command.ExecuteNonQuery();
-        //        }
-        //    }
+            var result = await _sqlHandler.Post(log);
 
-        //    return Ok("Product created successfully.");
-        //}
+            if (result)
+                return Ok("Log saved successfully.");
+            return BadRequest("Log was not saved in database");
+        }
     }
 }

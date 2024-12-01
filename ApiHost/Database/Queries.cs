@@ -27,9 +27,15 @@ namespace ApiHost.Database
         internal string InsertIntoLogTable(LogDTO dto)
         {
             return @$"
-                INSERT INTO {LOG_TABLE_NAME} (Name, Type, Context)
-                VALUES ({dto.Name},{dto.DateTime.ToString("yyyy-MM-dd HH:mm:ss")},{dto.Context});
+                USE {LOG_DATABASE_NAME};
+                INSERT INTO {LOG_TABLE_NAME} (Name, Time, Context)
+                VALUES ('{dto.Name}','{dto.DateTime.ToString("yyyy-MM-dd HH:mm:ss")}','{dto.Context}');
             ";
+        }
+
+        internal string FetchAllLogs()
+        {
+            return $@"SELECT * FROM {LOG_DATABASE_NAME}.dbo.{LOG_TABLE_NAME};";
         }
 
         internal string FetchLogsDatabaseIfExists()
