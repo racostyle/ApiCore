@@ -1,13 +1,26 @@
+using System.Xml;
+
 namespace ApiHost
 {
-    public class WeatherForecast
+    public class ShranjevanjeVJson
     {
-        public DateOnly Date { get; set; }
+        //public void Shrani(List<PokemonKarta> karte)
+        //{
+        //    // Pretvori objekt v JSON format
+        //    string json = JsonConvert.SerializeObject<List<PokemonKarta>>(karte, Formatting.Indented);
 
-        public int TemperatureC { get; set; }
+        //    // Shrani JSON v datoteko
+        //    string potDoDatoteke = "pokemon_karta.json";
+        //    File.WriteAllText(potDoDatoteke, json);
+        //}
 
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+        //public List<PokemonKarta> Loader()
+        //{
+        //    string potDoDatoteke = "pokemon_karta.json";
 
-        public string? Summary { get; set; }
+        //    // read file into a string and deserialize JSON to a type
+        //    var karte = JsonConvert.DeserializeObject<List<PokemonKarta>>(File.ReadAllText(potDoDatoteke));
+        //    return karte;
+        //}
     }
 }

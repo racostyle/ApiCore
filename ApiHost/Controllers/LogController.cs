@@ -15,19 +15,24 @@ namespace ApiHost.Controllers
             _sqlHandler = sqlHandler;
         }
 
-        [HttpGet("status")]
-        public IActionResult Status()
+        private async Task SafetyChecks()
         {
-            return Ok("LogController is working!");
+            await _sqlHandler.CreateLogsDatabaseIfDoesNotExist();
+            await _sqlHandler.CreateLogsDatabaseIfDoesNotExist();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            await SafetyChecks();
+            var loaded = await _sqlHandler.Get();
+            return Ok(loaded);
+        }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] LogDTO log)
         {
-           
-            await _sqlHandler.CreateLogsDatabaseIfDoesNotExist();
-            await _sqlHandler.CreateLogsDatabaseIfDoesNotExist();
+            await SafetyChecks();
 
             var result = await _sqlHandler.Post(log);
 

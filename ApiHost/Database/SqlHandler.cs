@@ -62,13 +62,18 @@ namespace ApiHost.Database
         {
             return await _databaseUtils.CheckSqlServerConnectionAsync(ConnectionString);
         }
-
+        #endregion
         internal async Task<bool> Post(LogDTO log)
         {
             var createResult = await _databaseQueryExecutor.ExecuteNonQueryAsync(ConnectionString, _queries.InsertIntoLogTable(log));
 
             return createResult > 0;
         }
-        #endregion
+
+        internal async Task<List<string>> Get()
+        {
+            var results = await _databaseQueryExecutor.CreateSqlReader_ThenExecuteAndReturnAllRowsAsync(ConnectionString, _queries.FetchAllLogs());
+            return results;
+        }
     }
 }

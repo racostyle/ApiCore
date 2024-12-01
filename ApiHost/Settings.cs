@@ -26,7 +26,6 @@ namespace ApiHost
             {
                 throw new Exception(ex.Message);
             }
-
         }
 
 
