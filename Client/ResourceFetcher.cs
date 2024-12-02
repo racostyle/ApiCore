@@ -16,18 +16,26 @@ namespace Client
 
         internal async Task Work()
         {
-            await Task.Delay(TimeSpan.FromSeconds(60));
+            try
+            {
+                await Task.Delay(TimeSpan.FromSeconds(60));
 
-            var dto = new LogDTO(Environment.MachineName, "content");
+                var dto = new LogDTO(Environment.MachineName, "content");
 
-            var json = JsonSerializer.Serialize(dto);
-            var data = new StringContent(json, Encoding.UTF8, "application/json");
+                var json = JsonSerializer.Serialize(dto);
+                var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-            using var client = new HttpClient();
-            var response = await client.PostAsync(_address, data);
+                using var client = new HttpClient();
+                var response = await client.PostAsync(_address, data);
 
-            string result = await response.Content.ReadAsStringAsync();
-            Console.WriteLine(result);
+                string result = await response.Content.ReadAsStringAsync();
+                Console.WriteLine(result);
+
+            }
+            catch (Exception ex) 
+            {
+                Console.WriteLine($"Error while sending request: {ex}");
+            }
         }
     }
 }
