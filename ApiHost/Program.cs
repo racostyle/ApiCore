@@ -26,14 +26,10 @@ namespace ApiHost
             var builder = WebApplication.CreateBuilder(args);
             // Add services to the container.
 
-            //builder.WebHost.ConfigureKestrel(serverOptions =>
-            //{
-            //    serverOptions.ListenAnyIP(5337); // HTTP on port 5337
-            //    serverOptions.ListenAnyIP(8337, listenOptions =>
-            //    {
-            //        listenOptions.UseHttps(); // HTTPS on port 8337
-            //    });
-            //});
+            builder.WebHost.ConfigureKestrel(serverOptions =>
+            {
+                serverOptions.ListenAnyIP(5337); 
+            });
 
             builder.Services.AddSingleton<Settings>(); 
             builder.Services.AddSingleton(sqlHandler); 
@@ -52,7 +48,7 @@ namespace ApiHost
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseAuthorization();
             app.MapControllers();
             app.Run();
