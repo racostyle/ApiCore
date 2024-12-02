@@ -20,7 +20,7 @@ namespace Client
             {
                 await Task.Delay(TimeSpan.FromSeconds(60));
 
-                var dto = new LogDTO(Environment.MachineName, "content");
+                var dto = new LogDTO(Environment.MachineName, "OK", "content");
 
                 var json = JsonSerializer.Serialize(dto);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
@@ -32,7 +32,7 @@ namespace Client
                 Console.WriteLine(result);
 
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 Console.WriteLine($"Error while sending request: {ex}");
             }

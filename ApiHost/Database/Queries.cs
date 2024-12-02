@@ -19,8 +19,9 @@ namespace ApiHost.Database
             USE {LOG_DATABASE_NAME};
             CREATE TABLE {LOG_TABLE_NAME} (
             ID INT PRIMARY KEY IDENTITY(1,1),
-            Name VARCHAR(30) NOT NULL,
+            Name VARCHAR(50) NOT NULL,
             Time DATETIME NOT NULL,
+            Type VARCHAR(10) NOT NULL,
             Context VARCHAR(MAX) NOT NULL);";
         }
 
@@ -28,8 +29,8 @@ namespace ApiHost.Database
         {
             return @$"
                 USE {LOG_DATABASE_NAME};
-                INSERT INTO {LOG_TABLE_NAME} (Name, Time, Context)
-                VALUES ('{dto.Name}','{dto.DateTime.ToString("yyyy-MM-dd HH:mm:ss")}','{dto.Context}');
+                INSERT INTO {LOG_TABLE_NAME} (Name, Time, Type, Context)
+                VALUES ('{dto.Name}','{dto.DateTime.ToString("yyyy-MM-dd HH:mm:ss")}','{dto.Type}','{dto.Context}');
             ";
         }
 
