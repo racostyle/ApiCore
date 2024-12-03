@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using Client.DataFetch;
+using System.Text.Json;
 
 namespace Client
 {
@@ -13,10 +14,15 @@ namespace Client
 
             string address = json["Address"];
 
-            var worker = new ResourceFetcher(address);
+            var worker = new ResourceFetcher(
+                address,
+                new CpuUsage(new ShellExecutor()),
+                new DiskUsage(),
+                new MemoryUsage(new ShellExecutor()));
 
             Console.WriteLine($"Using address: {address}");
             Console.WriteLine($"Working...");
+
             while (true)
             {
                 await worker.Work();

@@ -1,4 +1,4 @@
-﻿using ApiHost.DTO;
+﻿using Dtos;
 
 namespace ApiHost.Database
 {

@@ -1,10 +1,10 @@
-﻿using ApiHost.DTO;
+﻿using Dtos;
 
 namespace ApiHost.Database
 {
     public class Queries
     {
-        internal readonly string LOG_DATABASE_NAME = "Logs";
+        internal readonly string LOG_DATABASE_NAME = "MonitorLogs";
         internal readonly string LOG_TABLE_NAME = "Entries";
 
         public string CreateLogDatabase()
@@ -19,18 +19,19 @@ namespace ApiHost.Database
             USE {LOG_DATABASE_NAME};
             CREATE TABLE {LOG_TABLE_NAME} (
             ID INT PRIMARY KEY IDENTITY(1,1),
-            Name VARCHAR(50) NOT NULL,
-            Time DATETIME NOT NULL,
-            Type VARCHAR(10) NOT NULL,
-            Context VARCHAR(MAX) NOT NULL);";
+            Source VARCHAR(50),
+            Type VARCHAR(10),
+            Time DATETIME,
+            Operation VARCHAR(10),
+            Context VARCHAR(MAX));";
         }
 
         internal string InsertIntoLogTable(LogDTO dto)
         {
             return @$"
                 USE {LOG_DATABASE_NAME};
-                INSERT INTO {LOG_TABLE_NAME} (Name, Time, Type, Context)
-                VALUES ('{dto.Name}','{dto.DateTime.ToString("yyyy-MM-dd HH:mm:ss")}','{dto.Type}','{dto.Context}');
+                INSERT INTO {LOG_TABLE_NAME} ([Source], [Type], [Time], [Operation], [Context])
+                VALUES ('{dto.Source}','{dto.Type}','{dto.DateTime.ToString("yyyy-MM-dd HH:mm:ss")}','{dto.Operation}','{dto.Context}');
             ";
         }
 
