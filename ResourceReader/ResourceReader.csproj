@@ -12,4 +12,14 @@
     <Folder Include="FormUtils\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Dtos\Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

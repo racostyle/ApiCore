@@ -1,4 +1,5 @@
 ﻿using Client.DataFetch;
+using Common;
 using System.Text.Json;
 
 namespace Client
@@ -14,8 +15,8 @@ namespace Client
 
             string address = json["Address"];
 
-            var worker = new ResourceFetcher(
-                address,
+            var worker = new ResourceHandler(
+                new SimpleHttpClient(address),
                 new CpuUsage(new ShellExecutor()),
                 new DiskUsage(),
                 new MemoryUsage(new ShellExecutor()));

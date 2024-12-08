@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "Client\Client.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceReader", "ResourceReader\ResourceReader.csproj", "{5CE73886-B7AF-4525-A467-3156DE86D4A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dtos", "Dtos\Dtos.csproj", "{BD054107-6188-45E2-8619-3C8549793510}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Dtos\Common.csproj", "{BD054107-6188-45E2-8619-3C8549793510}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

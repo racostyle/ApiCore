@@ -1,8 +1,4 @@
-﻿using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Text;
-
-namespace Client.DataFetch
+﻿namespace Client.DataFetch
 {
     internal class DiskUsage : IFetchData
     {

@@ -1,5 +1,5 @@
 ﻿using ApiHost.Database;
-using Dtos;
+using Common.Dto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiHost.Controllers
