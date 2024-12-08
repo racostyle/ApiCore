@@ -3,8 +3,8 @@ namespace Common.DisplayClasses
 {
     public class CPUData : IMachineData
     {
+        private readonly DateTime _dateTime;
         public readonly string _machineName;
-        public readonly DateTime _dateTime;
         private readonly string _type;
         public readonly string _context;
 
@@ -20,6 +20,21 @@ namespace Common.DisplayClasses
         {
             var baseline = $"Machine Name: {_machineName}, Date: {_dateTime}, Type: {_type}{Environment.NewLine}";
             return $"* {baseline}Used Percentage: {_context}%";
+        }
+
+        public int CompareTo(IMachineData other)
+        {
+            return _dateTime.CompareTo(other.GetDateTime());
+        }
+
+        public DateTime GetDateTime()
+        {
+            return _dateTime;
+        }
+
+        public string GetMachineName()
+        {
+            return _machineName;
         }
     }
 
@@ -56,6 +71,21 @@ namespace Common.DisplayClasses
                 return $"* {baseline}Used: {_context}GB";
             return $"* {baseline}Used: {_context}GB, Used Percentage: {_usage}%";
         }
+
+        public int CompareTo(IMachineData other)
+        {
+            return _dateTime.CompareTo(other.GetDateTime());
+        }
+
+        public DateTime GetDateTime()
+        {
+            return _dateTime;
+        }
+
+        public string GetMachineName()
+        {
+            return _machineName;
+        }
     }
 
     public class DiskData : IMachineData
@@ -87,6 +117,21 @@ namespace Common.DisplayClasses
         {
             var baseline = $"Machine Name: {_machineName}, Date: {_dateTime}, Type: {_type}{Environment.NewLine}";
             return $"* {baseline}Disk: {_diskName}, Used: {_context}GB, Used Percentage: {_usage}%";
+        }
+
+        public int CompareTo(IMachineData other)
+        {
+            return _dateTime.CompareTo(other.GetDateTime());
+        }
+
+        public DateTime GetDateTime()
+        {
+            return _dateTime;
+        }
+
+        public string GetMachineName()
+        {
+            return _machineName;
         }
     }
 }
