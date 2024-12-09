@@ -31,8 +31,10 @@ namespace ResourceReader
         private void InitializeComponent()
         {
             rtbOutput = new DarkRichTextBox();
-            btnSortBymachineName = new DarkButton();
+            btnFetchData = new DarkButton();
             tbMachineName = new DarkTextBox();
+            btnDisplayAll = new DarkButton();
+            btnDisplaySelected = new DarkButton();
             SuspendLayout();
             // 
             // rtbOutput
@@ -51,20 +53,19 @@ namespace ResourceReader
             rtbOutput.Text = "";
             rtbOutput.VScroll += RtbOutput_VScroll;
             // 
-            // btnSortBymachineName
+            // btnFetchData
             // 
-            btnSortBymachineName.BackColor = Color.Black;
-            btnSortBymachineName.BorderColor = Color.FromArgb(50, 50, 50);
-            btnSortBymachineName.FlatStyle = FlatStyle.Flat;
-            btnSortBymachineName.Font = new Font("Arial", 8F);
-            btnSortBymachineName.ForeColor = Color.WhiteSmoke;
-            btnSortBymachineName.Location = new Point(12, 12);
-            btnSortBymachineName.Name = "btnSortBymachineName";
-            btnSortBymachineName.Size = new Size(204, 29);
-            btnSortBymachineName.TabIndex = 1;
-            btnSortBymachineName.Text = "Sort By Machine Name";
-            btnSortBymachineName.UseVisualStyleBackColor = true;
-            btnSortBymachineName.Click += btnGenerateSortData;
+            btnFetchData.BackColor = Color.Black;
+            btnFetchData.BorderColor = Color.FromArgb(50, 50, 50);
+            btnFetchData.FlatStyle = FlatStyle.Flat;
+            btnFetchData.Font = new Font("Arial", 8F);
+            btnFetchData.ForeColor = Color.WhiteSmoke;
+            btnFetchData.Location = new Point(12, 12);
+            btnFetchData.Size = new Size(204, 65);
+            btnFetchData.TabIndex = 1;
+            btnFetchData.Text = "Fetch Data";
+            btnFetchData.UseVisualStyleBackColor = true;
+            btnFetchData.Click += OnFetchData;
             // 
             // tbMachineName
             // 
@@ -73,18 +74,48 @@ namespace ResourceReader
             tbMachineName.BorderStyle = BorderStyle.FixedSingle;
             tbMachineName.Font = new Font("Arial", 9F);
             tbMachineName.ForeColor = Color.WhiteSmoke;
-            tbMachineName.Location = new Point(12, 47);
+            tbMachineName.Location = new Point(12, 108);
             tbMachineName.Name = "tbMachineName";
             tbMachineName.Size = new Size(204, 25);
             tbMachineName.TabIndex = 2;
+            // 
+            // btnDisplayAll
+            // 
+            btnDisplayAll.BackColor = Color.Black;
+            btnDisplayAll.BorderColor = Color.FromArgb(50, 50, 50);
+            btnDisplayAll.FlatStyle = FlatStyle.Flat;
+            btnDisplayAll.Font = new Font("Arial", 8F);
+            btnDisplayAll.ForeColor = Color.WhiteSmoke;
+            btnDisplayAll.Location = new Point(12, 478);
+            btnDisplayAll.Size = new Size(204, 65);
+            btnDisplayAll.TabIndex = 3;
+            btnDisplayAll.Text = "Display All";
+            btnDisplayAll.UseVisualStyleBackColor = true;
+            btnDisplayAll.Click += OnDisplayAll_Click;
+            // 
+            // btnDisplaySelected
+            // 
+            btnDisplaySelected.BackColor = Color.Black;
+            btnDisplaySelected.BorderColor = Color.FromArgb(50, 50, 50);
+            btnDisplaySelected.FlatStyle = FlatStyle.Flat;
+            btnDisplaySelected.Font = new Font("Arial", 8F);
+            btnDisplaySelected.ForeColor = Color.WhiteSmoke;
+            btnDisplaySelected.Location = new Point(12, 397);
+            btnDisplaySelected.Size = new Size(204, 65);
+            btnDisplaySelected.TabIndex = 4;
+            btnDisplaySelected.Text = "Display Selected";
+            btnDisplaySelected.UseVisualStyleBackColor = true;
+            btnDisplaySelected.Click += OnDisplaySelected_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(960, 555);
+            Controls.Add(btnDisplaySelected);
+            Controls.Add(btnDisplayAll);
             Controls.Add(tbMachineName);
-            Controls.Add(btnSortBymachineName);
+            Controls.Add(btnFetchData);
             Controls.Add(rtbOutput);
             Name = "Form1";
             Text = "Form1";
@@ -95,7 +126,9 @@ namespace ResourceReader
         #endregion
 
         private DarkRichTextBox rtbOutput;
-        private DarkButton btnSortBymachineName;
+        private DarkButton btnFetchData;
         private DarkTextBox tbMachineName;
+        private DarkButton btnDisplayAll;
+        private DarkButton btnDisplaySelected;
     }
 }

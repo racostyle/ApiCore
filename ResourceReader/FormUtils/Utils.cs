@@ -7,7 +7,7 @@ namespace FormsUtils
     public static class Utils
     {
         /// <summary>
-        /// Example: Utils.StartForm(() => new DbLoader.BackupDbForm(tbSqlServer.Text, SETTINGS_FILE));
+        /// Example: SUtils.StartForm(() => new DbLoader.BackupDbForm(tbSqlServer.Text, SETTINGS_FILE));
         /// </summary>
         public static T StartForm<T>(Func<T> formFactory) where T : Form
         {

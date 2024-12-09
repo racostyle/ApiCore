@@ -1,9 +1,10 @@
 ﻿using Common;
+using Common.DisplayClasses;
 using System.Text.Json;
 
-namespace ResourceReader
+namespace ResourceReader.SUtils
 {
-    public static class StringExtensions
+    public static class Extensions
     {
         public static string[] GenerateArrayFromJson(this string json)
         {
@@ -28,9 +29,9 @@ namespace ResourceReader
             }
         }
 
-        public static string BeautifyResult(this string result)
+        public static string ToStringAndFormat(this IMachineData result)
         {
-            return result.Replace("||||", "||").Replace("||", ", ").Trim();
+            return $"{result.ToString()}{Environment.NewLine}{Environment.NewLine}";
         }
     }
 }

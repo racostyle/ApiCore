@@ -1,6 +1,8 @@
 using Common;
+using Common.Display;
 using Common.DisplayClasses;
 using FormsUtils;
+using ResourceReader.SUtils;
 using System.Text.Json;
 
 namespace ResourceReader
@@ -8,7 +10,7 @@ namespace ResourceReader
     public partial class Form1 : Form
     {
         private readonly SimpleHttpClient _httpClient;
-        private List<IMachineData> _machineData;
+        private Linked<IMachineData> _linkedMachineData;
 
         public Form1()
         {
@@ -40,41 +42,100 @@ namespace ResourceReader
                 if (c.Name.StartsWith("chb"))
                     c.ForeColor = Color.White;
             }
+
+            ColorOptions();
+
         }
         #endregion
 
-        private async void btnGenerateSortData(object sender, EventArgs e)
+        #region INTERACTIVE
+        private void OnDisplaySelected_Click(object sender, EventArgs e)
         {
-            var json = await _httpClient.ExecuteAsync();
-            var list = json.GenerateArrayFromJson().ToArray();
-            _machineData = GenerateMmachineData(list).ToList();
+            if (_linkedMachineData == null)
+                return;
 
-            foreach (var item in _machineData)
-                rtbOutput.Text += $"{item.ToString()}{Environment.NewLine}{Environment.NewLine}";
+            rtbOutput.Clear();
+
+            var result = GetDataFromTargetMachine(tbMachineName.Text).ToArray();
+
+            foreach (var item in result)
+                rtbOutput.Text += item.ToStringAndFormat();
         }
 
-        private IEnumerable<IMachineData> GenerateMmachineData(string[] list)
+        private void OnDisplayAll_Click(object sender, EventArgs e)
         {
+            if (_linkedMachineData == null)
+                return;
+
+            rtbOutput.Clear();
+
+            foreach (var item in _linkedMachineData)
+                rtbOutput.Text += item.Value.ToStringAndFormat();
+        }
+
+        private async void OnFetchData(object sender, EventArgs e)
+        {
+            var json = await _httpClient.ExecuteAsync();
+            GenerateLinkedMachineData(json.GenerateArrayFromJson().ToArray());
+            ColorOptions();
+
+            if (_linkedMachineData.Any())
+                rtbOutput.Text = "Data Collected";
+            else
+                rtbOutput.Text = "No data recieved from endpoint";
+        }
+        #endregion
+
+        #region Auxiliary
+        private void GenerateLinkedMachineData(string[] list)
+        {
+            _linkedMachineData = new Linked<IMachineData>();
 
             foreach (var item in list)
             {
                 var local = item.Split("||", StringSplitOptions.RemoveEmptyEntries);
 
                 if (local[3].Equals("CPU"))
-                    yield return new CPUData(local[0], local[2], local[3], local[4]);
+                    _linkedMachineData.Add(new CPUData(local[0], local[2], local[3], local[4]));
                 else if (local[3].Equals("RAM"))
-                    yield return new MemoryData(local[0], local[2], local[3], local[4], local[5]);
+                    _linkedMachineData.Add(new MemoryData(local[0], local[2], local[3], local[4], local[5]));
                 else if (local[3].Equals("DISK"))
                 {
                     for (var i = 4; i < local.Length; i += 3)
-                        yield return new DiskData(local[0], local[2], local[3], local[i], local[i + 1], local[i + 2]);
+                        _linkedMachineData.Add(new DiskData(local[0], local[2], local[3], local[i], local[i + 1], local[i + 2]));
                 }
             }
         }
+
+        private IEnumerable<IMachineData> GetDataFromTargetMachine(string machineName)
+        {
+            foreach (var item in _linkedMachineData)
+            {
+                if (item.Value.GetMachineName().CompareTo(machineName) == 0)
+                    yield return item.Value;
+            }
+        }
+
+        private void ColorOptions()
+        {
+            if (_linkedMachineData == null)
+            {
+                btnDisplayAll.BackColor = Color.Red;
+                btnDisplaySelected.BackColor = Color.Red;
+            }
+            else
+            {
+                btnDisplayAll.BackColor = btnFetchData.BackColor;
+                btnDisplaySelected.BackColor = btnFetchData.BackColor;
+            }
+        }
+
 
         private void RtbOutput_VScroll(object sender, EventArgs e)
         {
             rtbOutput.Refresh();
         }
+
+        #endregion
     }
 }

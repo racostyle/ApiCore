@@ -2,10 +2,9 @@
 
 namespace Common.DisplayClasses
 {
-    public interface IMachineData : IComparable<IMachineData>
+    public interface IMachineData
     {
-        DateTime GetDateTime();
-        string GetMachineName();
+        (string MachineName, DateTime DateTime, string Type) GetData();
         string ToString();
     }
 }
