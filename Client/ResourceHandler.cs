@@ -10,11 +10,13 @@ namespace Client
     {
         private readonly SimpleHttpClient _httpClient;
         private readonly IFetchData[] _fetchData;
+        private readonly int _fetchInterval;
         private readonly string MachineName = Environment.MachineName;
 
-        public ResourceHandler(SimpleHttpClient httpClient, params IFetchData[] fetchData)
+        public ResourceHandler(SimpleHttpClient httpClient, int fetchInterval, params IFetchData[] fetchData)
         {
             _httpClient = httpClient;
+            _fetchInterval = fetchInterval;
             _fetchData = fetchData;
         }
 
@@ -22,7 +24,7 @@ namespace Client
         {
             try
             {
-                await Task.Delay(TimeSpan.FromSeconds(60));
+                await Task.Delay(TimeSpan.FromMinutes(_fetchInterval));
 
 
                 List<StringContent> contents = new List<StringContent>();

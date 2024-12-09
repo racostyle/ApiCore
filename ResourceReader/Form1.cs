@@ -4,9 +4,7 @@ using Common.DisplayClasses;
 using FormsUtils;
 using FormsUtils.Controls;
 using ResourceReader.SUtils;
-using System.Drawing.Text;
 using System.Text.Json;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ResourceReader
 {
