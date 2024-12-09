@@ -27,12 +27,6 @@ namespace ResourceReader.SUtils
             }
         }
 
-        internal void GetLatestData()
-        {
-
-        }
-
-
         public IEnumerator<Node<T>> GetEnumerator()
         {
             Node<T>? current = Head;

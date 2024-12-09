@@ -19,5 +19,10 @@ namespace Common.Display
         {
             return input.GetData().Type;
         }
+
+        public static double GetUsagePercent(this IMachineData input)
+        {
+            return input.GetData().Usage;
+        }
     }
 }

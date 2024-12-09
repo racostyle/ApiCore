@@ -35,6 +35,8 @@ namespace ResourceReader
             tbMachineName = new DarkTextBox();
             btnDisplayAll = new DarkButton();
             btnDisplaySelected = new DarkButton();
+            label1 = new Label();
+            btnDIsplayCritical = new DarkButton();
             SuspendLayout();
             // 
             // rtbOutput
@@ -60,7 +62,8 @@ namespace ResourceReader
             btnFetchData.FlatStyle = FlatStyle.Flat;
             btnFetchData.Font = new Font("Arial", 8F);
             btnFetchData.ForeColor = Color.WhiteSmoke;
-            btnFetchData.Location = new Point(12, 12);
+            btnFetchData.Location = new Point(12, 19);
+            btnFetchData.Name = "btnFetchData";
             btnFetchData.Size = new Size(204, 65);
             btnFetchData.TabIndex = 1;
             btnFetchData.Text = "Fetch Data";
@@ -74,7 +77,7 @@ namespace ResourceReader
             tbMachineName.BorderStyle = BorderStyle.FixedSingle;
             tbMachineName.Font = new Font("Arial", 9F);
             tbMachineName.ForeColor = Color.WhiteSmoke;
-            tbMachineName.Location = new Point(12, 108);
+            tbMachineName.Location = new Point(12, 129);
             tbMachineName.Name = "tbMachineName";
             tbMachineName.Size = new Size(204, 25);
             tbMachineName.TabIndex = 2;
@@ -86,7 +89,8 @@ namespace ResourceReader
             btnDisplayAll.FlatStyle = FlatStyle.Flat;
             btnDisplayAll.Font = new Font("Arial", 8F);
             btnDisplayAll.ForeColor = Color.WhiteSmoke;
-            btnDisplayAll.Location = new Point(12, 478);
+            btnDisplayAll.Location = new Point(12, 466);
+            btnDisplayAll.Name = "btnDisplayAll";
             btnDisplayAll.Size = new Size(204, 65);
             btnDisplayAll.TabIndex = 3;
             btnDisplayAll.Text = "Display All";
@@ -100,18 +104,45 @@ namespace ResourceReader
             btnDisplaySelected.FlatStyle = FlatStyle.Flat;
             btnDisplaySelected.Font = new Font("Arial", 8F);
             btnDisplaySelected.ForeColor = Color.WhiteSmoke;
-            btnDisplaySelected.Location = new Point(12, 397);
+            btnDisplaySelected.Location = new Point(12, 385);
+            btnDisplaySelected.Name = "btnDisplaySelected";
             btnDisplaySelected.Size = new Size(204, 65);
             btnDisplaySelected.TabIndex = 4;
             btnDisplaySelected.Text = "Display Selected";
             btnDisplaySelected.UseVisualStyleBackColor = true;
             btnDisplaySelected.Click += OnDisplaySelected_Click;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(12, 104);
+            label1.Name = "label1";
+            label1.Size = new Size(112, 20);
+            label1.TabIndex = 5;
+            label1.Text = "Machine Name:";
+            // 
+            // btnDIsplayCritical
+            // 
+            btnDIsplayCritical.BackColor = Color.Black;
+            btnDIsplayCritical.BorderColor = Color.FromArgb(50, 50, 50);
+            btnDIsplayCritical.FlatStyle = FlatStyle.Flat;
+            btnDIsplayCritical.Font = new Font("Arial", 8F);
+            btnDIsplayCritical.ForeColor = Color.WhiteSmoke;
+            btnDIsplayCritical.Location = new Point(12, 305);
+            btnDIsplayCritical.Name = "btnDIsplayCritical";
+            btnDIsplayCritical.Size = new Size(204, 65);
+            btnDIsplayCritical.TabIndex = 6;
+            btnDIsplayCritical.Text = "DIsplay Critical";
+            btnDIsplayCritical.UseVisualStyleBackColor = true;
+            btnDIsplayCritical.Click += OnDisplayCriticalClick;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(960, 555);
+            Controls.Add(btnDIsplayCritical);
+            Controls.Add(label1);
             Controls.Add(btnDisplaySelected);
             Controls.Add(btnDisplayAll);
             Controls.Add(tbMachineName);
@@ -130,5 +161,7 @@ namespace ResourceReader
         private DarkTextBox tbMachineName;
         private DarkButton btnDisplayAll;
         private DarkButton btnDisplaySelected;
+        private Label label1;
+        private DarkButton btnDIsplayCritical;
     }
 }

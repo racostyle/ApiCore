@@ -2,8 +2,11 @@ using Common;
 using Common.Display;
 using Common.DisplayClasses;
 using FormsUtils;
+using FormsUtils.Controls;
 using ResourceReader.SUtils;
+using System.Drawing.Text;
 using System.Text.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ResourceReader
 {
@@ -34,13 +37,11 @@ namespace ResourceReader
             var controls = Utils.GetAllControlsInForm(this);
             foreach (Control c in controls)
             {
-                if (c.Name.StartsWith("lbl"))
+                if (c is Label)
                 {
                     c.BackColor = CustomColors.BACKGROUND_COLOR;
                     c.ForeColor = Color.White;
                 }
-                if (c.Name.StartsWith("chb"))
-                    c.ForeColor = Color.White;
             }
 
             ColorOptions();
@@ -54,12 +55,8 @@ namespace ResourceReader
             if (_linkedMachineData == null)
                 return;
 
-            rtbOutput.Clear();
-
             var result = GetDataFromTargetMachine(tbMachineName.Text).ToArray();
-
-            foreach (var item in result)
-                rtbOutput.Text += item.ToStringAndFormat();
+            DisplayInOutputTextBox(result);
         }
 
         private void OnDisplayAll_Click(object sender, EventArgs e)
@@ -67,10 +64,7 @@ namespace ResourceReader
             if (_linkedMachineData == null)
                 return;
 
-            rtbOutput.Clear();
-
-            foreach (var item in _linkedMachineData)
-                rtbOutput.Text += item.Value.ToStringAndFormat();
+            DisplayInOutputTextBox(_linkedMachineData.Select(x => x.Value).ToArray());
         }
 
         private async void OnFetchData(object sender, EventArgs e)
@@ -84,6 +78,37 @@ namespace ResourceReader
             else
                 rtbOutput.Text = "No data recieved from endpoint";
         }
+
+        private void OnDisplayCriticalClick(object sender, EventArgs e)
+        {
+            if (_linkedMachineData.Any())
+                rtbOutput.Text = "Data Collected";
+
+            var data = FindMostCriticalRecursive(_linkedMachineData.Head);
+            DisplayInOutputTextBox(data);
+        }
+
+        private IMachineData FindMostCriticalRecursive(Node<IMachineData> selected)
+        {
+            IMachineData Search(Node<IMachineData> current, Node<IMachineData> next)
+            {
+                if (next.Next == null)
+                    return current.Value;
+
+                if (current.Value.GetUsagePercent() < current.Next.Value.GetUsagePercent())
+                    current = next;
+
+                next = next.Next;
+
+                return Search(current, next);
+            }
+
+            if (selected.Next == null)
+                return selected.Value;
+
+            return Search(selected, selected.Next);
+        }
+
         #endregion
 
         #region Auxiliary
@@ -107,6 +132,14 @@ namespace ResourceReader
             }
         }
 
+        private void DisplayInOutputTextBox(params IMachineData[] nodes)
+        {
+            rtbOutput.Clear();
+
+            foreach (var item in nodes)
+                rtbOutput.Text += item.ToStringAndFormat();
+        }
+
         private IEnumerable<IMachineData> GetDataFromTargetMachine(string machineName)
         {
             foreach (var item in _linkedMachineData)
@@ -118,18 +151,32 @@ namespace ResourceReader
 
         private void ColorOptions()
         {
-            if (_linkedMachineData == null)
+            var option = IsMachineDataValid();
+            var controls = Utils.GetAllControlsInForm(this);
+            foreach (Control c in controls)
             {
-                btnDisplayAll.BackColor = Color.Red;
-                btnDisplaySelected.BackColor = Color.Red;
+                if (c is not DarkButton) 
+                    continue;
+
+                if (c.Name == "btnFetchData")
+                    continue;
+
+                if (!option)
+                    ((DarkButton)c).BackColor = Color.Red;
+                else
+                    ((DarkButton)c).BackColor = btnFetchData.BackColor;
             }
-            else
-            {
-                btnDisplayAll.BackColor = btnFetchData.BackColor;
-                btnDisplaySelected.BackColor = btnFetchData.BackColor;
-            }
+           
         }
 
+        private bool IsMachineDataValid()
+        {
+            if (_linkedMachineData == null) 
+                return false;
+            if (!_linkedMachineData.Any()) 
+                return false;
+            return true;
+        }
 
         private void RtbOutput_VScroll(object sender, EventArgs e)
         {

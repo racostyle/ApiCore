@@ -27,9 +27,9 @@ namespace Common.DisplayClasses
             return _machineName.CompareTo(other);
         }
 
-        public (string MachineName, DateTime DateTime, string Type) GetData()
+        public (string MachineName, DateTime DateTime, string Type, double Usage) GetData()
         {
-            return (_machineName, _dateTime, _type);
+            return (_machineName, _dateTime, _type, double.Parse(_context));
         }
     }
 }
