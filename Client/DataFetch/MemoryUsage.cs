@@ -1,4 +1,6 @@
-﻿namespace Client.DataFetch
+﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace Client.DataFetch
 {
     internal class MemoryUsage : IFetchData
     {
@@ -16,8 +18,12 @@
                 $totalRAM = (Get-CimInstance -ClassName Win32_OperatingSystem).TotalVisibleMemorySize
                 $freeRAM = (Get-CimInstance -ClassName Win32_OperatingSystem).FreePhysicalMemory
                 $usedRAM = $totalRAM - $freeRAM
-                Write-Host ""$([math]::Round($usedRAM / 1MB, 2))""
-                Write-Host ""$([math]::Round($totalRAM / 1MB, 2))""";
+                $usedRAMFormatted = [math]::Round($usedRAM / 1MB, 2).ToString('F2', [System.Globalization.CultureInfo]::InvariantCulture)
+                $totalRAMFormatted = [math]::Round($totalRAM / 1MB, 2).ToString('F2', [System.Globalization.CultureInfo]::InvariantCulture)
+                Write-Host $usedRAMFormatted
+                Write-Host $totalRAMFormatted
+            ";
+
 
             string result = await _shellExecutor.RunShellCommand(arguments);
 

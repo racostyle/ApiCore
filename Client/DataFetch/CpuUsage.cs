@@ -15,12 +15,18 @@ namespace Client.DataFetch
         public async Task<(string Type, string Data)> Fetch()
         {
             string arguments = @"
-                for ($i = 0; $i -lt 3; $i++)
+                $total = 0
+                for ($i = 0; $i -lt 5; $i++)
                 {
-                    $cpuLoad = Get-WmiObject -Class Win32_Processor | Measure-Object -Property LoadPercentage -Average | Select-Object -ExpandProperty Average
-                    Write-Host ""$cpuLoad""
+                    $cpuUsage = (Get-Counter '\Processor(_Total)\% Processor Time').CounterSamples.CookedValue
+                    $roundedCpuUsage = $cpuUsage
+                    $total = $total + $roundedCpuUsage
                     Start-Sleep -Seconds 1
-                }";
+                }
+                $total = $total/5
+                $totalFormatted = $total.ToString('F2', [System.Globalization.CultureInfo]::InvariantCulture)
+                Write-Host $totalFormatted";
+
 
             string result = await _shellExecutor.RunShellCommand(arguments);
 
@@ -32,19 +38,7 @@ namespace Client.DataFetch
             if (string.IsNullOrEmpty(result))
                 return "ERROR";
 
-            string[] results = BuildArray(result);
-
-            if (results.Length == 0)
-                return "ERROR";
-
-            float average = 0;
-            foreach (string line in results)
-            {
-                if (float.TryParse(line, out var usage))
-                    average += usage;
-            }
-
-            return $"{average / results.Length}";
+            return $"{result}";
         }
 
         private string[] BuildArray(string result)
