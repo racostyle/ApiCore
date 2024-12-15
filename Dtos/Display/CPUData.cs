@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 namespace Common.DisplayClasses
 {
     public class CPUData : IMachineData, IComparable<string>
@@ -13,7 +14,7 @@ namespace Common.DisplayClasses
             _machineName = machineName;
             _dateTime = DateTime.Parse(dateTime);
             _type = type;
-            _context = context;
+            _context = context.Replace(",", ".");
         }
 
         public override string ToString()
@@ -29,7 +30,7 @@ namespace Common.DisplayClasses
 
         public (string MachineName, DateTime DateTime, string Type, double Usage) GetData()
         {
-            return (_machineName, _dateTime, _type, double.Parse(_context));
+            return (_machineName, _dateTime, _type, double.Parse(_context, CultureInfo.InvariantCulture));
         }
     }
 }

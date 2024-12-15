@@ -93,7 +93,10 @@ namespace ResourceReader
                 if (next.Next == null)
                     return current.Value;
 
-                if (current.Value.GetUsagePercent() < current.Next.Value.GetUsagePercent())
+                var currentVal = current.Value.GetUsagePercent();
+                var nextVal = current.Next.Value.GetUsagePercent();
+
+                if (currentVal < nextVal)
                     current = next;
 
                 next = next.Next;

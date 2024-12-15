@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 namespace Common.DisplayClasses
 {
     public class MemoryData : IMachineData, IComparable<string>
@@ -23,7 +24,7 @@ namespace Common.DisplayClasses
             if (double.TryParse(used, out double u))
             {
                 if (double.TryParse(total, out double t))
-                    _usage = (u / t * 100).ToString("F2");
+                    _usage = (u / t * 100).ToString("F2").Replace(",", ".");
             }
         }
 
@@ -42,7 +43,7 @@ namespace Common.DisplayClasses
 
         public (string MachineName, DateTime DateTime, string Type, double Usage) GetData()
         {
-            return (_machineName, _dateTime, _type, double.Parse(_usage));
+            return (_machineName, _dateTime, _type, double.Parse(_usage, CultureInfo.InvariantCulture));
         }
     }
 }
