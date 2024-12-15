@@ -5,6 +5,11 @@
         private readonly long TO_GB = 1024 * 1024 * 1024;
         private readonly string TYPE = "DISK";
 
+        public DiskUsage()
+        {
+            Console.WriteLine($"Fetch '{TYPE}' Enabled.");
+        }
+
         public Task<(string Type, string Data)> Fetch()
         {
             var data = new List<string>();

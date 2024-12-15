@@ -10,6 +10,7 @@ namespace Client.DataFetch
         public MemoryUsage(ShellExecutor shellExecutor)
         {
             _shellExecutor = shellExecutor;
+            Console.WriteLine($"Fetch '{TYPE}' Enabled.");
         }
 
         public async Task<(string Type, string Data)> Fetch()

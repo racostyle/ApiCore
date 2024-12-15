@@ -1,6 +1,4 @@
-﻿
-
-namespace Client.DataFetch
+﻿namespace Client.DataFetch
 {
     internal class CpuUsage : IFetchData
     {
@@ -10,6 +8,7 @@ namespace Client.DataFetch
         public CpuUsage(ShellExecutor shellExecutor)
         {
             _shellExecutor = shellExecutor;
+            Console.WriteLine($"Fetch '{TYPE}' Enabled.");
         }
 
         public async Task<(string Type, string Data)> Fetch()
