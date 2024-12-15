@@ -1,6 +1,5 @@
 ﻿using Client.DataFetch;
 using Common;
-using System.Net;
 using System.Text.Json;
 
 namespace Client
@@ -57,6 +56,8 @@ namespace Client
             if (settings.ContainsKey(key))
             {
                 if (settings[key].Trim().Equals("1"))
+                    return true;
+                if (settings[key].Trim().Equals("true", StringComparison.InvariantCultureIgnoreCase))
                     return true;
             }
             return false;
